@@ -68,18 +68,15 @@ function getMergePropsFn(enumedTheming) {
     const newProps = { ...props2 };
 
     Object.entries(props1).forEach(([key, value]: [keyof P, any]) => {
-      if (
+      if (enumedTheming?.[key] === ThemedPropType.pressStyle && props1[key]) {
+        newProps[key] = flattenPressableStyle([props1[key], props2[key]]);
+      } else if (
         typeof value === 'object' &&
         typeof props1[key] === 'object' &&
         value?.constructor.name === 'Object' &&
         props1[key]?.constructor.name === 'Object'
       ) {
         newProps[key] = { ...value, ...props2[key] };
-      } else if (
-        enumedTheming?.[key] === ThemedPropType.pressStyle &&
-        props1[key]
-      ) {
-        newProps[key] = flattenPressableStyle([props1[key], props2[key]]);
       } else {
         oldProps[key] = value;
       }
@@ -107,7 +104,7 @@ function mergeThemePropsWithProps(props, enumedTheming, Themer) {
 
     return { ...acc, [key]: value };
   }
-  return Object.entries(props).reduce(propReducer, { __overwrite: true });
+  return Object.entries(props).reduce(propReducer, {});
 }
 
 function addThemeProp(target, key, prop, type, Themer) {

@@ -43,5 +43,6 @@ const $styles = Themer.getStyles({
   },
   $view: {
     backgroundColor: 'BACKGROUND',
+    flex: 1,
   },
 });

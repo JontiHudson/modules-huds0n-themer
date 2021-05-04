@@ -21,8 +21,8 @@ export function getThemePressStyle<cT extends Types.CustomTheme>(
 ) {
   if (typeof props === 'function') {
     return (pressState: PressableStateCallbackType) =>
-      getThemeViewStyle(Themer, props(pressState));
+      getThemeViewStyle<cT>(Themer, props(pressState));
   }
 
-  return getThemeViewStyle(Themer, props);
+  return getThemeViewStyle<cT>(Themer, props);
 }
